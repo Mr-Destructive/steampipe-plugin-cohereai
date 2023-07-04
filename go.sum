@@ -239,6 +239,8 @@ github.com/cncf/xds/go v0.0.0-20210805033703-aa0b78936158/go.mod h1:eXthEFrGJvWH
 github.com/cncf/xds/go v0.0.0-20210922020428-25de7278fc84/go.mod h1:eXthEFrGJvWHgFFCl3hGmgk+/aYT6PnTQLykKQRLhEs=
 github.com/cncf/xds/go v0.0.0-20211001041855-01bcc9b48dfe/go.mod h1:eXthEFrGJvWHgFFCl3hGmgk+/aYT6PnTQLykKQRLhEs=
 github.com/cncf/xds/go v0.0.0-20211011173535-cb28da3451f1/go.mod h1:eXthEFrGJvWHgFFCl3hGmgk+/aYT6PnTQLykKQRLhEs=
+github.com/cohere-ai/cohere-go v0.2.0 h1:Gljkn8LTtsAPy79ks1AVmZH9Av4kuQuXEgzEJ/1Ea34=
+github.com/cohere-ai/cohere-go v0.2.0/go.mod h1:DFcCu5rwro4wAlluIXY9l17NLGiVBGb2bRio46RXBm8=
 github.com/cohere-ai/cohere-go v1.2.2 h1:RtUV998gx5V/YTtZj8x4Gk18xMOamBCD7n88NYOILZo=
 github.com/cohere-ai/cohere-go v1.2.2/go.mod h1:FuJOECLkkpTBSkgwXsMUqOituJ29dRmo4frGoEV5I6Y=
 github.com/cohere-ai/tokenizer v1.1.1 h1:wCtmCj07O82TMrIiA/CORhIlEYsvMMM8ey+sUdEapHc=
