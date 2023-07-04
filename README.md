@@ -1,5 +1,3 @@
-![image](https://hub.steampipe.io/images/plugins/turbot/cohereai-social-graphic.png)
-
 # Cohere-AI Plugin for Steampipe
 
 Use SQL to query models, completions and more from CohereAI.
@@ -22,7 +20,7 @@ Configure your API key in `~/.steampipe/config/cohereai.spc`:
 ```hcl
 connection "cohereai" {
   plugin  = "cohereai"
-  api_key = "CGG8G29a47ViRhvVsCGPT8BlbkFJBvFr65mZcMJWH8fayZO8"
+  api_key = "YOUR_API_KEY"
 }
 ```
 
@@ -38,7 +36,7 @@ Run a query:
 select
   generation
 from
-  cohereai_completion
+  cohereai_generation
 where
   prompt = '';
 ```

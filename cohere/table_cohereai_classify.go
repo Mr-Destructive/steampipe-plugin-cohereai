@@ -20,15 +20,14 @@ func tableCohereClassification(ctx context.Context) *plugin.Table {
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "inputs", Require: plugin.Optional},
 				{Name: "examples", Require: plugin.Optional},
-				{Name: "settings", Require: plugin.Optional},
 			},
 		},
 		Columns: []*plugin.Column{
 			// Columns returned from the Cohere API
 			{Name: "classification", Type: proto.ColumnType_STRING, Transform: transform.FromField("Classification.Prediction"), Description: "The classification results for the given input text(s)."},
 
-			{Name: "inputs", Type: proto.ColumnType_STRING, Transform: transform.FromField("inputs"), Description: "The input text that was classified."},
-			{Name: "examples", Type: proto.ColumnType_STRING, Transform: transform.FromField("examples"), Description: "The example text classified."},
+			{Name: "inputs", Type: proto.ColumnType_STRING, Transform: transform.FromQual("inputs"), Description: "The input text that was classified."},
+			{Name: "examples", Type: proto.ColumnType_STRING, Transform: transform.FromQual("examples"), Description: "The example text classified."},
 			{Name: "settings", Type: proto.ColumnType_JSON, Transform: transform.FromQual("settings"), Description: "Settings is a JSONB object that accepts any of the completion API request parameters."},
 		},
 	}
@@ -100,7 +99,7 @@ func listClassification(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	// Return tokenize data
 	for _, c := range resp.Classifications {
-		row := ClassificationRow{Classification: c, Input: cr.Inputs}
+		row := ClassificationRow{c, cr.Inputs}
 		d.StreamListItem(ctx, row)
 	}
 	return nil, nil
