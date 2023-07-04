@@ -20,6 +20,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 		TableMap: map[string]*plugin.Table{
 			"cohereai_tokenize": tableCohereTokenize(ctx),
 			"cohereai_generation": tableCohereGeneration(ctx),
+            "cohereai_classification": tableCohereClassification(ctx),
 		},
 	}
 	return p
