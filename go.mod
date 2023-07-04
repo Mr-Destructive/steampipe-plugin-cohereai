@@ -3,7 +3,7 @@ module github.com/steampipe/steampipe-plugin-cohereai
 go 1.19
 
 require (
-	github.com/cohere-ai/cohere-go v1.2.2
+	github.com/cohere-ai/cohere-go v0.2.0
 	github.com/turbot/steampipe-plugin-sdk/v5 v5.5.0
 )
 

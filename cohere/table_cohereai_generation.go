@@ -65,10 +65,12 @@ func listGeneration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// Default settings taken from the Cohere API docs
 	// https://docs.cohere.ai/reference/generate
+	var maxTokens uint = 100
+	var numGenerations int = 3
 	cr := coherego.GenerateOptions{
 		Prompt:         d.EqualsQuals["prompt"].GetStringValue(),
-		MaxTokens:      100,
-		NumGenerations: 3,
+		MaxTokens:      &maxTokens,
+		NumGenerations: &numGenerations,
 	}
 
 	settingsString := d.EqualsQuals["settings"].GetJsonbValue()
