@@ -19,19 +19,23 @@ func tableCohereEmbed(ctx context.Context) *plugin.Table {
 			Hydrate: embed,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "texts", Require: plugin.Optional},
+				{Name: "settings", Require: plugin.Optional},
 			},
 		},
 		Columns: []*plugin.Column{
 			// Columns returned from the Cohere API
 			{Name: "embeddings", Type: proto.ColumnType_STRING, Transform: transform.FromField("Embeddings"), Description: "Embeddings for the given texts."},
 			{Name: "texts", Type: proto.ColumnType_STRING, Transform: transform.FromQual("texts"), Description: "The texts to embed, encoded as a JSON array."},
+			{Name: "settings", Type: proto.ColumnType_JSON, Transform: transform.FromQual("settings"), Description: "Settings is a JSONB object that accepts any of the completion API request parameters."},
 		},
 	}
 }
 
 // EmbedRequestQual defines the structure of the settings qual
 type EmbedRequestQual struct {
-	Texts []string `json:"texts"`
+	Model    *string  `json:"model,omitempty"`
+	Texts    []string `json:"texts,omitempty"`
+	Truncate *string  `json:"truncate,omitempty"`
 }
 
 // EmbedRow defines the row structure returned from the API
@@ -61,6 +65,22 @@ func embed(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (int
 	opts := coherego.EmbedOptions{
 		Model: "small",
 		Texts: texts,
+	}
+	settingString := d.EqualsQuals["settings"].GetJsonbValue()
+	if settingString != "" {
+		var crQual EmbedRequestQual
+		err := json.Unmarshal([]byte(settingString), &crQual)
+		if err != nil {
+			plugin.Logger(ctx).Error("cohereai_embed.embed", "unmarshal_error", err)
+			return nil, err
+		}
+
+		if crQual.Model != nil {
+			opts.Model = *crQual.Model
+		}
+		if crQual.Truncate != nil {
+			opts.Truncate = *crQual.Truncate
+		}
 	}
 
 	// Make the Embed API call

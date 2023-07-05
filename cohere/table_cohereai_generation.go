@@ -35,17 +35,16 @@ func tableCohereGeneration(ctx context.Context) *plugin.Table {
 
 // CompletionRequestQual defines the structure of the settings qual
 type GenerationRequestQual struct {
-	Model            *string  `json:"model"`
+	Model            *string  `json:"model,omitempty"`
 	Prompt           *string  `json:"prompt,omitempty"`
-	MaxTokens        *int     `json:"max_tokens,omitempty"`
-	Temperature      *float32 `json:"temperature,omitempty"`
-	TopP             *float32 `json:"top_p,omitempty"`
-	FrequencyPenalty *float32 `json:"frequency_penalty,omitempty"`
-	PresencePenalty  *float32 `json:"presence_penalty,omitempty"`
+	MaxTokens        *uint    `json:"max_tokens,omitempty"`
+	NumGenerations   *int     `json:"num_generations,omitempty"`
+	Temperature      *float64 `json:"temperature,omitempty"`
+	TopP             *float64 `json:"top_p,omitempty"`
+	FrequencyPenalty *float64 `json:"frequency_penalty,omitempty"`
+	PresencePenalty  *float64 `json:"presence_penalty,omitempty"`
 	Stop             []string `json:"stop,omitempty"`
-	Echo             *bool    `json:"echo,omitempty"`
-	LogProbs         *int     `json:"logprobs,omitempty"`
-	User             *string  `json:"user,omitempty"`
+	Preset           string   `json:"preset,omitempty"`
 }
 
 // CompletionRow defines the row structure returned from the API
@@ -88,6 +87,30 @@ func listGeneration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		}
 		if crQual.Prompt != nil {
 			cr.Prompt = *crQual.Prompt
+		}
+		if crQual.MaxTokens != nil {
+			cr.MaxTokens = crQual.MaxTokens
+		}
+		if crQual.Temperature != nil {
+			cr.Temperature = crQual.Temperature
+		}
+		if crQual.TopP != nil {
+			cr.P = crQual.TopP
+		}
+		if crQual.FrequencyPenalty != nil {
+			cr.FrequencyPenalty = crQual.FrequencyPenalty
+		}
+		if crQual.PresencePenalty != nil {
+			cr.PresencePenalty = crQual.PresencePenalty
+		}
+		if crQual.Stop != nil {
+			cr.StopSequences = crQual.Stop
+		}
+		if crQual.NumGenerations != nil {
+			cr.NumGenerations = crQual.NumGenerations
+		}
+		if crQual.Preset != "" {
+			cr.Preset = crQual.Preset
 		}
 	}
 

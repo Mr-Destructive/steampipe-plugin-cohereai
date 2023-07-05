@@ -20,6 +20,7 @@ func tableCohereClassification(ctx context.Context) *plugin.Table {
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "inputs", Require: plugin.Optional},
 				{Name: "examples", Require: plugin.Optional},
+				{Name: "settings", Require: plugin.Optional},
 			},
 		},
 		Columns: []*plugin.Column{
@@ -35,9 +36,11 @@ func tableCohereClassification(ctx context.Context) *plugin.Table {
 
 // ClassificationRequestQual defines the structure of the settings qual
 type ClassificationRequestQual struct {
-	Model    *string `json:"model"`
-	Inputs   *string `json:"inputs"`
-	Examples *string `json:"examples"`
+	Model    *string `json:"model,omitempty"`
+	Inputs   *string `json:"inputs,omitempty"`
+	Examples *string `json:"examples,omitempty"`
+	Preset   *string `json:"preset,omitempty"`
+	Truncate string  `json:"truncate,omitempty"`
 }
 
 // ClassificationRow defines the row structure returned from the API
@@ -88,6 +91,12 @@ func listClassification(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		if err != nil {
 			plugin.Logger(ctx).Error("cohereai_classification.listClassification", "unmarshal_error", err)
 			return nil, err
+		}
+		if crQual.Model != nil {
+			cr.Model = *crQual.Model
+		}
+		if crQual.Preset != nil {
+			cr.Preset = *crQual.Preset
 		}
 	}
 
