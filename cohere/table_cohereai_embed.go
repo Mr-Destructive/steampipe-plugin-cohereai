@@ -25,6 +25,7 @@ func tableCohereEmbed(ctx context.Context) *plugin.Table {
 		Columns: []*plugin.Column{
 			// Columns returned from the Cohere API
 			{Name: "embeddings", Type: proto.ColumnType_STRING, Transform: transform.FromField("Embeddings"), Description: "Embeddings for the given texts."},
+			{Name: "text", Type: proto.ColumnType_STRING, Transform: transform.FromField("Text"), Description: "The texts to embed, encoded as a JSON array."},
 			{Name: "texts", Type: proto.ColumnType_STRING, Transform: transform.FromQual("texts"), Description: "The texts to embed, encoded as a JSON array."},
 			{Name: "settings", Type: proto.ColumnType_JSON, Transform: transform.FromQual("settings"), Description: "Settings is a JSONB object that accepts any of the completion API request parameters."},
 		},
@@ -33,15 +34,16 @@ func tableCohereEmbed(ctx context.Context) *plugin.Table {
 
 // EmbedRequestQual defines the structure of the settings qual
 type EmbedRequestQual struct {
-	Model    *string  `json:"model,omitempty"`
-	Texts    []string `json:"texts,omitempty"`
-	Truncate *string  `json:"truncate,omitempty"`
+	Model    *string   `json:"model,omitempty"`
+	Texts    *[]string `json:"texts,omitempty"`
+	Truncate *string   `json:"truncate,omitempty"`
 }
 
 // EmbedRow defines the row structure returned from the API
 type EmbedRow struct {
-	Embeddings [][]float64
+	Embeddings []float64
 	Texts      []string
+	Text       string
 }
 
 // embed handles querying the Cohere AI API and returning embed data
@@ -81,6 +83,9 @@ func embed(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (int
 		if crQual.Truncate != nil {
 			opts.Truncate = *crQual.Truncate
 		}
+		if crQual.Texts != nil {
+			opts.Texts = *crQual.Texts
+		}
 	}
 
 	// Make the Embed API call
@@ -90,7 +95,13 @@ func embed(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (int
 	}
 
 	// Return embed data
-	row := EmbedRow{resp.Embeddings, opts.Texts}
-	d.StreamListItem(ctx, row)
+	for i, result := range resp.Embeddings {
+		rows := EmbedRow{
+			result,
+			texts,
+			texts[i],
+		}
+		d.StreamListItem(ctx, rows)
+	}
 	return nil, nil
 }

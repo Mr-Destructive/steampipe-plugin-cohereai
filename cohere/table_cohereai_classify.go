@@ -13,7 +13,7 @@ import (
 // Defines the cohereai_classification table
 func tableCohereClassification(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
-		Name:        "cohereai_classification",
+		Name:        "cohereai_classify",
 		Description: "Classification in Cohere AI.",
 		List: &plugin.ListConfig{
 			Hydrate: listClassification,
@@ -36,11 +36,11 @@ func tableCohereClassification(ctx context.Context) *plugin.Table {
 
 // ClassificationRequestQual defines the structure of the settings qual
 type ClassificationRequestQual struct {
-	Model    *string `json:"model,omitempty"`
-	Inputs   *string `json:"inputs,omitempty"`
-	Examples *string `json:"examples,omitempty"`
-	Preset   *string `json:"preset,omitempty"`
-	Truncate string  `json:"truncate,omitempty"`
+	Model    *string             `json:"model,omitempty"`
+	Inputs   *[]string           `json:"inputs,omitempty"`
+	Examples *[]coherego.Example `json:"examples,omitempty"`
+	Preset   *string             `json:"preset,omitempty"`
+	Truncate string              `json:"truncate,omitempty"`
 }
 
 // ClassificationRow defines the row structure returned from the API

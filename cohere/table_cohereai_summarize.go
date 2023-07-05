@@ -33,13 +33,13 @@ func tableCohereSummarize(ctx context.Context) *plugin.Table {
 
 // SummarizeRequestQual defines the structure of the settings qual
 type SummarizeRequestQual struct {
-	Text               string   `json:"text,omitempty"`
-	Format             *string  `json:"format,omitempty"`
-	Length             *string  `json:"length,omitempty"`
-	Extractiveness     *string  `json:"extractiveness,omitempty"`
-	Temperature        *float64 `json:"temperature,omitempty"`
-	AdditionalCommands *string  `json:"additional_commands,omitempty"`
-	Model              *string  `json:"model,omitempty"`
+	Text              *string  `json:"text,omitempty"`
+	Format            *string  `json:"format,omitempty"`
+	Length            *string  `json:"length,omitempty"`
+	Extractiveness    *string  `json:"extractiveness,omitempty"`
+	Temperature       *float64 `json:"temperature,omitempty"`
+	AdditionalCommand *string  `json:"additional_command,omitempty"`
+	Model             *string  `json:"model,omitempty"`
 }
 
 // SummarizeRow defines the row structure returned from the API
@@ -85,6 +85,12 @@ func summarize(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 		}
 		if crQual.Model != nil {
 			opts.Model = *crQual.Model
+		}
+		if crQual.AdditionalCommand != nil {
+			opts.AdditionalCommand = *crQual.AdditionalCommand
+		}
+		if crQual.Text != nil {
+			opts.Text = *crQual.Text
 		}
 	}
 

@@ -112,6 +112,9 @@ func listGeneration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		if crQual.Preset != "" {
 			cr.Preset = crQual.Preset
 		}
+        if cr.Prompt == "" {
+    cr.Prompt = *crQual.Prompt
+}
 	}
 
 	// Query the Cohere API
