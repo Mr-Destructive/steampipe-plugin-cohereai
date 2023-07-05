@@ -42,7 +42,7 @@ where
 
 ## Documentation
 
-- **[Table definitions & examples →](/plugins/turbot/coherai/tables)**
+- **[Table definitions & examples →](/docs/tables)**
 
 ## Get started
 
