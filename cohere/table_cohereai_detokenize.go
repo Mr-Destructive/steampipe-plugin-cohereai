@@ -24,6 +24,8 @@ func tableCohereDetokenize(ctx context.Context) *plugin.Table {
 		Columns: []*plugin.Column{
 			// Columns returned from the Cohere API
 			{Name: "text", Type: proto.ColumnType_STRING, Transform: transform.FromField("Text"), Description: "The detokenized text."},
+
+			// Qual columns to provide input to the API
 			{Name: "tokens", Type: proto.ColumnType(proto.ColumnType_STRING.Number()), Transform: transform.FromQual("tokens"), Description: "The tokens to detokenize, encoded as a JSON array."},
 		},
 	}
@@ -40,7 +42,7 @@ type DetokenizeRow struct {
 	Tokens []int64
 }
 
-// detokenize handles querying the Cohere AI API and returning detokenize data
+// detokenize handles querying the Cohere AI API and returning detokenized data as text
 func detokenize(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	// Create the API client
 	client, err := connect(ctx, d)

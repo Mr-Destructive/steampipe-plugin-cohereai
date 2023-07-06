@@ -25,6 +25,8 @@ func tableCohereEmbed(ctx context.Context) *plugin.Table {
 		Columns: []*plugin.Column{
 			// Columns returned from the Cohere API
 			{Name: "embeddings", Type: proto.ColumnType_STRING, Transform: transform.FromField("Embeddings"), Description: "Embeddings for the given texts."},
+
+			// Qual columns to provide input to the API
 			{Name: "text", Type: proto.ColumnType_STRING, Transform: transform.FromField("Text"), Description: "The texts to embed, encoded as a JSON array."},
 			{Name: "texts", Type: proto.ColumnType_STRING, Transform: transform.FromQual("texts"), Description: "The texts to embed, encoded as a JSON array."},
 			{Name: "settings", Type: proto.ColumnType_JSON, Transform: transform.FromQual("settings"), Description: "Settings is a JSONB object that accepts any of the completion API request parameters."},
@@ -46,7 +48,7 @@ type EmbedRow struct {
 	Text       string
 }
 
-// embed handles querying the Cohere AI API and returning embed data
+// embed handles querying the Cohere AI API and returning embedings
 func embed(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	// Create the API client
 	client, err := connect(ctx, d)

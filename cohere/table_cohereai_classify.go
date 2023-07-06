@@ -27,6 +27,7 @@ func tableCohereClassification(ctx context.Context) *plugin.Table {
 			// Columns returned from the Cohere API
 			{Name: "classification", Type: proto.ColumnType_STRING, Transform: transform.FromField("Classification.Prediction"), Description: "The classification results for the given input text(s)."},
 
+			// Qual columns to provide input to the API
 			{Name: "inputs", Type: proto.ColumnType_STRING, Transform: transform.FromQual("inputs"), Description: "The input text that was classified."},
 			{Name: "examples", Type: proto.ColumnType_STRING, Transform: transform.FromQual("examples"), Description: "The example text classified."},
 			{Name: "settings", Type: proto.ColumnType_JSON, Transform: transform.FromQual("settings"), Description: "Settings is a JSONB object that accepts any of the completion API request parameters."},
@@ -49,7 +50,7 @@ type ClassificationRow struct {
 	Input []string
 }
 
-// listCompletion handles querying the Cohere AI API and returning tokenize data
+// listClassification handles querying the Cohere AI API and returning a list of labels
 func listClassification(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 
 	conn, err := connect(ctx, d)

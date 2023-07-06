@@ -10,7 +10,7 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
-// Defines the cohereai_completion table
+// Defines the cohereai_generation table
 func tableCohereGeneration(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "cohereai_generation",
@@ -33,7 +33,7 @@ func tableCohereGeneration(ctx context.Context) *plugin.Table {
 	}
 }
 
-// CompletionRequestQual defines the structure of the settings qual
+// GenerationRequestQual defines the structure of the settings qual
 type GenerationRequestQual struct {
 	Model            *string  `json:"model,omitempty"`
 	Prompt           *string  `json:"prompt,omitempty"`
@@ -47,13 +47,13 @@ type GenerationRequestQual struct {
 	Preset           string   `json:"preset,omitempty"`
 }
 
-// CompletionRow defines the row structure returned from the API
+// GenerationRow defines the row structure returned from the API
 type GenerationRow struct {
 	coherego.Generation
 	Prompt string
 }
 
-// listCompletion handles querying the Cohere AI API and returning completion data
+// listGeneration handles querying the Cohere AI API and returning generation data
 func listGeneration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 
 	conn, err := connect(ctx, d)
@@ -112,9 +112,9 @@ func listGeneration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		if crQual.Preset != "" {
 			cr.Preset = crQual.Preset
 		}
-        if cr.Prompt == "" {
-    cr.Prompt = *crQual.Prompt
-}
+		if cr.Prompt == "" {
+			cr.Prompt = *crQual.Prompt
+		}
 	}
 
 	// Query the Cohere API
@@ -125,7 +125,7 @@ func listGeneration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 
 	plugin.Logger(ctx).Trace("cohereai_generation.listGeneration", "response", resp)
-	// Return completion data
+	// Return generation data
 	for _, c := range resp.Generations {
 		row := GenerationRow{c, cr.Prompt}
 		d.StreamListItem(ctx, row)

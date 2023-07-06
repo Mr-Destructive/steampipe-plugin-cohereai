@@ -25,6 +25,8 @@ func tableCohereSummarize(ctx context.Context) *plugin.Table {
 		Columns: []*plugin.Column{
 			// Columns returned from the Cohere API
 			{Name: "summary", Type: proto.ColumnType_STRING, Transform: transform.FromField("Summary"), Description: "Summary for the given text."},
+
+			// Qual columns to provide input to the API
 			{Name: "text", Type: proto.ColumnType_STRING, Transform: transform.FromQual("text"), Description: "The text to summarize, encoded as a string."},
 			{Name: "settings", Type: proto.ColumnType_JSON, Transform: transform.FromQual("settings"), Description: "Settings is a JSONB object that accepts any of the completion API request parameters."},
 		},
@@ -48,7 +50,7 @@ type SummarizeRow struct {
 	Text    string
 }
 
-// summarize handles querying the Cohere AI API and returning summarize data
+// summarize handles querying the Cohere AI API and returning summarized text as summary
 func summarize(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	// Create the API client
 	client, err := connect(ctx, d)

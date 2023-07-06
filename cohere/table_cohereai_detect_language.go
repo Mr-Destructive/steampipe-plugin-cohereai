@@ -25,6 +25,8 @@ func tableCohereDetectLanguage(ctx context.Context) *plugin.Table {
 			// Columns returned from the Cohere API
 			{Name: "language_name", Type: proto.ColumnType_STRING, Transform: transform.FromField("LanguageDetectResult.LanguageName"), Description: "The name of the detected language."},
 			{Name: "language_code", Type: proto.ColumnType_STRING, Transform: transform.FromField("LanguageDetectResult.LanguageCode"), Description: "The ISO 639-1 code for the detected language."},
+
+			// Qual columns to provide input to the API
 			{Name: "text", Type: proto.ColumnType_STRING, Transform: transform.FromField("Text"), Description: "The texts to detect languages for, encoded as a JSON array."},
 			{Name: "texts", Type: proto.ColumnType_STRING, Transform: transform.FromQual("texts"), Description: "The texts to detect languages for, encoded as a JSON array."},
 		},
@@ -43,7 +45,7 @@ type DetectLanguageRow struct {
 	Text  string
 }
 
-// detectLanguage handles querying the Cohere AI API and returning detect language data
+// detectLanguage handles querying the Cohere AI API and returning detected language name and code
 func detectLanguage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	// Create the API client
 	client, err := connect(ctx, d)

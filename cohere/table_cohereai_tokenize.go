@@ -24,6 +24,8 @@ func tableCohereTokenize(ctx context.Context) *plugin.Table {
 		Columns: []*plugin.Column{
 			// Columns returned from the Cohere API
 			{Name: "tokens", Type: proto.ColumnType_STRING, Transform: transform.FromField("Tokens.Tokens"), Description: "Completions for a given text prompt."},
+
+			// Qual columns to provide input to the API
 			{Name: "text", Type: proto.ColumnType_STRING, Transform: transform.FromQual("text"), Description: "The text to tokenize for, encoded as a string."},
 		},
 	}
@@ -40,7 +42,7 @@ type TokenizeRow struct {
 	Text   string
 }
 
-// listCompletion handles querying the Cohere AI API and returning tokenize data
+// tokenize handles querying the Cohere AI API and returning tokens from provided text
 func tokenize(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 
 	conn, err := connect(ctx, d)
