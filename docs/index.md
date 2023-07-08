@@ -65,7 +65,7 @@ steampipe plugin install cohereai
 
 ### Configuration
 
-Installing the latest openai plugin will create a config file (`~/.steampipe/config/cohereai.spc`) with a single connection named `cohereai`:
+Installing the latest comereai plugin will create a config file (`~/.steampipe/config/cohereai.spc`) with a single connection named `cohereai`:
 
 ```hcl
 connection "cohereai" {
