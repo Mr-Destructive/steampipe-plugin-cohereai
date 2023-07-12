@@ -56,7 +56,7 @@ func detokenize(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	if tokenList != "" {
 		err := json.Unmarshal([]byte(tokenList), &tokens)
 		if err != nil {
-			plugin.Logger(ctx).Error("cohereai_detokenize.detokenize", "unmarshal_error", err)
+			plugin.Logger(ctx).Error("cohereai_detokenize.detokenize", "connection_error", err)
 			return nil, err
 		}
 	}
@@ -67,9 +67,11 @@ func detokenize(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	// Make the Detokenize API call
 	resp, err := client.Detokenize(opts)
 	if err != nil {
+		plugin.Logger(ctx).Error("cohereai_detokenize.detokenize", "api_error", err)
 		return nil, err
 	}
 
+	plugin.Logger(ctx).Debug("cohereai_detokenize.detokenize", "text", resp.Text)
 	// Return detokenize data
 	row := DetokenizeRow{
 		Text:   resp.Text,

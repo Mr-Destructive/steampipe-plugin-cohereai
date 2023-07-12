@@ -24,12 +24,12 @@ func tableCohereEmbed(ctx context.Context) *plugin.Table {
 		},
 		Columns: []*plugin.Column{
 			// Columns returned from the Cohere API
-			{Name: "embeddings", Type: proto.ColumnType_STRING, Transform: transform.FromField("Embeddings"), Description: "Embeddings for the given texts."},
+			{Name: "embeddings", Type: proto.ColumnType_JSON, Transform: transform.FromField("Embeddings"), Description: "Embeddings for the given texts."},
+			{Name: "text", Type: proto.ColumnType_STRING, Transform: transform.FromField("Text"), Description: "The texts to embed, encoded as a JSON array."},
 
 			// Qual columns to provide input to the API
-			{Name: "text", Type: proto.ColumnType_STRING, Transform: transform.FromField("Text"), Description: "The texts to embed, encoded as a JSON array."},
 			{Name: "texts", Type: proto.ColumnType_STRING, Transform: transform.FromQual("texts"), Description: "The texts to embed, encoded as a JSON array."},
-			{Name: "settings", Type: proto.ColumnType_JSON, Transform: transform.FromQual("settings"), Description: "Settings is a JSONB object that accepts any of the completion API request parameters."},
+			{Name: "settings", Type: proto.ColumnType_JSON, Transform: transform.FromQual("settings"), Description: "Settings is a JSONB object that accepts any of the embed API request parameters."},
 		},
 	}
 }
@@ -62,7 +62,7 @@ func embed(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (int
 	if textString != "" {
 		err := json.Unmarshal([]byte(textString), &texts)
 		if err != nil {
-			plugin.Logger(ctx).Error("cohereai_embed.embed", "unmarshal_error", err)
+			plugin.Logger(ctx).Error("cohereai_embed.embed", "connection_error", err)
 			return nil, err
 		}
 	}
@@ -75,7 +75,7 @@ func embed(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (int
 		var crQual EmbedRequestQual
 		err := json.Unmarshal([]byte(settingString), &crQual)
 		if err != nil {
-			plugin.Logger(ctx).Error("cohereai_embed.embed", "unmarshal_error", err)
+			plugin.Logger(ctx).Error("cohereai_embed.embed", "connection_error", err)
 			return nil, err
 		}
 
@@ -93,9 +93,11 @@ func embed(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (int
 	// Make the Embed API call
 	resp, err := client.Embed(opts)
 	if err != nil {
+		plugin.Logger(ctx).Error("cohereai_embed.embed", "api_error", err)
 		return nil, err
 	}
 
+	plugin.Logger(ctx).Debug("cohereai_embed.embed", "embeddings", resp.Embeddings)
 	// Return embed data
 	for i, result := range resp.Embeddings {
 		rows := EmbedRow{

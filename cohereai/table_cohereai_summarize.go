@@ -24,11 +24,12 @@ func tableCohereSummarize(ctx context.Context) *plugin.Table {
 		},
 		Columns: []*plugin.Column{
 			// Columns returned from the Cohere API
-			{Name: "summary", Type: proto.ColumnType_STRING, Transform: transform.FromField("Summary"), Description: "Summary for the given text."},
+			{Name: "id", Type: proto.ColumnType_STRING, Transform: transform.FromField("SummarizeResponse.ID"), Description: "ID for the given text."},
+			{Name: "summary", Type: proto.ColumnType_STRING, Transform: transform.FromField("SummarizeResponse.Summary"), Description: "Summary for the given text."},
 
 			// Qual columns to provide input to the API
 			{Name: "text", Type: proto.ColumnType_STRING, Transform: transform.FromQual("text"), Description: "The text to summarize, encoded as a string."},
-			{Name: "settings", Type: proto.ColumnType_JSON, Transform: transform.FromQual("settings"), Description: "Settings is a JSONB object that accepts any of the completion API request parameters."},
+			{Name: "settings", Type: proto.ColumnType_JSON, Transform: transform.FromQual("settings"), Description: "Settings is a JSONB object that accepts any of the summarize API request parameters."},
 		},
 	}
 }
@@ -46,8 +47,8 @@ type SummarizeRequestQual struct {
 
 // SummarizeRow defines the row structure returned from the API
 type SummarizeRow struct {
-	Summary string
-	Text    string
+	coherego.SummarizeResponse
+	Text string
 }
 
 // summarize handles querying the Cohere AI API and returning summarized text as summary
@@ -69,7 +70,7 @@ func summarize(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 		var crQual SummarizeRequestQual
 		err := json.Unmarshal([]byte(settingString), &crQual)
 		if err != nil {
-			plugin.Logger(ctx).Error("cohereai_summarize.summarize", "unmarshal_error", err)
+			plugin.Logger(ctx).Error("cohereai_summarize.summarize", "connection_error", err)
 			return nil, err
 		}
 
@@ -99,11 +100,13 @@ func summarize(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	// Make the Summarize API call
 	resp, err := client.Summarize(opts)
 	if err != nil {
+		plugin.Logger(ctx).Error("cohereai_summarize.summarize", "api_error", err)
 		return nil, err
 	}
 
+	plugin.Logger(ctx).Debug("cohereai_summarize.summarize", "summary", resp.Summary)
 	// Return summarize data
-	row := SummarizeRow{resp.Summary, opts.Text}
+	row := SummarizeRow{*resp, opts.Text}
 	d.StreamListItem(ctx, row)
 	return nil, nil
 }

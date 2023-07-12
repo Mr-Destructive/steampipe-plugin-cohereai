@@ -25,12 +25,15 @@ func tableCohereClassification(ctx context.Context) *plugin.Table {
 		},
 		Columns: []*plugin.Column{
 			// Columns returned from the Cohere API
+			{Name: "id", Type: proto.ColumnType_STRING, Transform: transform.FromField("Classification.ID"), Description: "The ID of the classification."},
 			{Name: "classification", Type: proto.ColumnType_STRING, Transform: transform.FromField("Classification.Prediction"), Description: "The classification results for the given input text(s)."},
+			{Name: "confidence", Type: proto.ColumnType_DOUBLE, Transform: transform.FromField("Classification.Confidence"), Description: "The confidence score of the classification."},
+			{Name: "labels", Type: proto.ColumnType_JSON, Transform: transform.FromField("Classification.Labels"), Description: "The labels of the classification."},
 
 			// Qual columns to provide input to the API
 			{Name: "inputs", Type: proto.ColumnType_STRING, Transform: transform.FromQual("inputs"), Description: "The input text that was classified."},
 			{Name: "examples", Type: proto.ColumnType_STRING, Transform: transform.FromQual("examples"), Description: "The example text classified."},
-			{Name: "settings", Type: proto.ColumnType_JSON, Transform: transform.FromQual("settings"), Description: "Settings is a JSONB object that accepts any of the completion API request parameters."},
+			{Name: "settings", Type: proto.ColumnType_JSON, Transform: transform.FromQual("settings"), Description: "Settings is a JSONB object that accepts any of the classify API request parameters."},
 		},
 	}
 }
@@ -67,7 +70,7 @@ func listClassification(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if inputsString != "" {
 		err := json.Unmarshal([]byte(inputsString), &inputs)
 		if err != nil {
-			plugin.Logger(ctx).Error("cohereai_classification.listClassification", "unmarshal_error", err)
+			plugin.Logger(ctx).Error("cohereai_classification.listClassification", "connection_error", err)
 			return nil, err
 		}
 	}
@@ -75,7 +78,7 @@ func listClassification(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if exampleString != "" {
 		err := json.Unmarshal([]byte(exampleString), &examples)
 		if err != nil {
-			plugin.Logger(ctx).Error("cohereai_classification.listClassification", "unmarshal_error", err)
+			plugin.Logger(ctx).Error("cohereai_classification.listClassification", "connection_error", err)
 			return nil, err
 		}
 	}
@@ -90,7 +93,7 @@ func listClassification(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		var crQual ClassificationRequestQual
 		err := json.Unmarshal([]byte(settingsString), &crQual)
 		if err != nil {
-			plugin.Logger(ctx).Error("cohereai_classification.listClassification", "unmarshal_error", err)
+			plugin.Logger(ctx).Error("cohereai_classification.listClassification", "connection_error", err)
 			return nil, err
 		}
 		if crQual.Model != nil {
@@ -107,6 +110,8 @@ func listClassification(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		plugin.Logger(ctx).Error("cohereai_classification.listClassification", "api_error", err)
 		return nil, err
 	}
+
+	plugin.Logger(ctx).Trace("cohereai_classification.listClassification", "response", resp)
 	// Return tokenize data
 	for _, c := range resp.Classifications {
 		row := ClassificationRow{c, cr.Inputs}

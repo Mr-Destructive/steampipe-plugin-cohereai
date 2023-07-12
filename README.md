@@ -1,6 +1,6 @@
 # Cohere-AI Plugin for Steampipe
 
-Use SQL to query models, completions and more from CohereAI.
+Use SQL to generate, classify, summarize text and more from CohereAI.
 
 - **[Get started →](https://hub.steampipe.io/plugins/turbot/cohereai)**
 - Documentation: [Table definitions & examples](https://hub.steampipe.io/plugins/turbot/cohereai/tables)
@@ -12,16 +12,26 @@ Use SQL to query models, completions and more from CohereAI.
 Install the plugin with [Steampipe](https://steampipe.io):
 
 ```shell
-steampipe plugin install cohereai
+steampipe plugin install Mr-Destructive/cohereai
 ```
 
 Configure your API key in `~/.steampipe/config/cohereai.spc`:
 
 ```hcl
 connection "cohereai" {
-  plugin  = "cohereai"
-  api_key = "YOUR_API_KEY"
+  plugin = "cohereai"
+
+  # API key for requests. Required.
+  # Get your API key at https://dashboard.cohere.ai/api-keys
+  # This can also be set via the `COHEREAI_API_KEY` environment variable.
+  api_key = "asLGEMKWMfkeFKENW038493fnWeng"
 }
+```
+
+Or through environment variables:
+
+```
+export COHEREAI_API_KEY=asLGEMKWMfkeFKENW038493fnWeng
 ```
 
 Run steampipe:

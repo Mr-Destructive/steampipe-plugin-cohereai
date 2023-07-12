@@ -9,22 +9,23 @@ import (
 
 func Plugin(ctx context.Context) *plugin.Plugin {
 	p := &plugin.Plugin{
-		Name: "steampipe-plugin-cohere",
+		Name: "steampipe-plugin-cohereai",
 		ConnectionConfigSchema: &plugin.ConnectionConfigSchema{
 			NewInstance: ConfigInstance,
+			Schema:      ConfigSchema,
 		},
 		DefaultTransform: transform.FromGo().NullIfZero(),
 		DefaultGetConfig: &plugin.GetConfig{
 			ShouldIgnoreError: isNotFoundError,
 		},
 		TableMap: map[string]*plugin.Table{
-			"cohereai_generation":      tableCohereGeneration(ctx),
-			"cohereai_classify":  tableCohereClassification(ctx),
-			"cohereai_embed":           tableCohereEmbed(ctx),
-			"cohereai_summarize":       tableCohereSummarize(ctx),
+			"cohereai_classify":        tableCohereClassification(ctx),
 			"cohereai_detect_language": tableCohereDetectLanguage(ctx),
-			"cohereai_tokenize":        tableCohereTokenize(ctx),
 			"cohereai_detokenize":      tableCohereDetokenize(ctx),
+			"cohereai_embed":           tableCohereEmbed(ctx),
+			"cohereai_generation":      tableCohereGeneration(ctx),
+			"cohereai_summarize":       tableCohereSummarize(ctx),
+			"cohereai_tokenize":        tableCohereTokenize(ctx),
 		},
 	}
 	return p

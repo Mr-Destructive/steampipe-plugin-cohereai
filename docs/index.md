@@ -16,7 +16,7 @@ og_image: "/images/plugins/turbot/cohereai-social-graphic.png"
 
 [Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
 
-Generate completions for a given text prompt in your OpenAI account:
+Get generations for a given text prompt in your CohereAI account:
 
 ```sql
 select
@@ -51,16 +51,16 @@ where
 Download and install the latest CohereAI plugin:
 
 ```bash
-steampipe plugin install cohereai 
+steampipe plugin install Mr-Destructive/cohereai 
 ```
 
 ### Credentials
 
 | Item        | Description                                                                                                                                                                                                                                                                                 |
 |-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Credentials | OpenAI requires an [API Key](https://dashboard.cohere.ai/api-keys) for all requests.                                                                                                                                                                                 |
+| Credentials | CohereAI requires an [API Key](https://dashboard.cohere.ai/api-keys) for all requests.                                                                                                                                                                                 |
 | Permissions | API Keys have the same permissions as the user who creates them, and if the user permissions change, the API key permissions also change.                                                                                                                                               |
-| Radius      | Each connection represents a single OpenAI Installation.                                                                                                                                                                                                                                   |
+| Radius      | Each connection represents a single CohereAI Installation.                                                                                                                                                                                                                                   |
 | Resolution  | 1. Credentials explicitly set in a steampipe config file (`~/.steampipe/config/cohereai.spc`)<br />2. Credentials specified in environment variables, e.g., `COHEREAI_API_KEY`. |
 
 ### Configuration
@@ -71,9 +71,10 @@ Installing the latest comereai plugin will create a config file (`~/.steampipe/c
 connection "cohereai" {
   plugin = "cohereai"
 
+  # API key for requests. Required.
   # Get your API key at https://dashboard.cohere.ai/api-keys
   # This can also be set via the `COHEREAI_API_KEY` environment variable.
-  api_key = "asLGEMKWMfkeFKENW038493fnWeng"
+  # api_key = "asLGEMKWMfkeFKENW038493fnWeng"
 }
 ```
 

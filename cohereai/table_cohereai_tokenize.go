@@ -23,7 +23,8 @@ func tableCohereTokenize(ctx context.Context) *plugin.Table {
 		},
 		Columns: []*plugin.Column{
 			// Columns returned from the Cohere API
-			{Name: "tokens", Type: proto.ColumnType_STRING, Transform: transform.FromField("Tokens.Tokens"), Description: "Completions for a given text prompt."},
+			{Name: "tokens", Type: proto.ColumnType_STRING, Transform: transform.FromField("Tokens.Tokens"), Description: "Tokens for a given text prompt."},
+			{Name: "token_strings", Type: proto.ColumnType_STRING, Transform: transform.FromField("Tokens.TokenStrings"), Description: "Tokens in the form of input string."},
 
 			// Qual columns to provide input to the API
 			{Name: "text", Type: proto.ColumnType_STRING, Transform: transform.FromQual("text"), Description: "The text to tokenize for, encoded as a string."},
@@ -64,7 +65,7 @@ func tokenize(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (
 		var crQual TokenizeRequestQual
 		err := json.Unmarshal([]byte(settingsString), &crQual)
 		if err != nil {
-			plugin.Logger(ctx).Error("cohereai_tokenize.tokenize", "unmarshal_error", err)
+			plugin.Logger(ctx).Error("cohereai_tokenize.tokenize", "connection_error", err)
 			return nil, err
 		}
 	}

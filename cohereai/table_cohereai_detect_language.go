@@ -27,7 +27,7 @@ func tableCohereDetectLanguage(ctx context.Context) *plugin.Table {
 			{Name: "language_code", Type: proto.ColumnType_STRING, Transform: transform.FromField("LanguageDetectResult.LanguageCode"), Description: "The ISO 639-1 code for the detected language."},
 
 			// Qual columns to provide input to the API
-			{Name: "text", Type: proto.ColumnType_STRING, Transform: transform.FromField("Text"), Description: "The texts to detect languages for, encoded as a JSON array."},
+			{Name: "text", Type: proto.ColumnType_STRING, Transform: transform.FromField("Text"), Description: "Text from which to detect it's language."},
 			{Name: "texts", Type: proto.ColumnType_STRING, Transform: transform.FromQual("texts"), Description: "The texts to detect languages for, encoded as a JSON array."},
 		},
 	}
@@ -70,9 +70,11 @@ func detectLanguage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	// Make the DetectLanguage API call
 	resp, err := client.DetectLanguage(opts)
 	if err != nil {
+		plugin.Logger(ctx).Error("cohereai_detect_language.detectLanguage", "api_error", err)
 		return nil, err
 	}
 
+	plugin.Logger(ctx).Debug("cohereai_detect_language.detectLanguage", "response", resp)
 	// Return detect language data
 	for i, result := range resp.Results {
 		rows := DetectLanguageRow{

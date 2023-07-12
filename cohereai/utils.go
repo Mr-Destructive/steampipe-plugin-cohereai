@@ -11,6 +11,11 @@ import (
 )
 
 func connect(ctx context.Context, d *plugin.QueryData) (*coherego.Client, error) {
+	cacheKey := "cohereai"
+	if cachedData, ok := d.ConnectionManager.Cache.Get(cacheKey); ok {
+		return cachedData.(*coherego.Client), nil
+	}
+
 	conn, err := connectCached(ctx, d, nil)
 	if err != nil {
 		return nil, err
