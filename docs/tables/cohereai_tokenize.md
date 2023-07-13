@@ -3,7 +3,8 @@
 Get Tokens for a given input string.
 
 Notes:
-* A `text` is a strings to get the tokens from.
+* A `text` is a string to get the tokens from.
+* Maximum length of text is 65536 characters.
 
 ## Examples
 

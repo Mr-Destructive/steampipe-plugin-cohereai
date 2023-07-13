@@ -2,6 +2,10 @@
 
 Create a summary for a given text prompt.
 
+Notes:
+* A `text` is a string to get the summary 
+* The maximum length of text is 100,000 characters.
+
 ## Examples
 
 ### Basic example with default settings

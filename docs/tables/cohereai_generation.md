@@ -70,3 +70,15 @@ where
   settings = '{
    "prompt": "Write app ideas for AI-realted domains."}';
 ```
+
+### Spell check a piece of text
+
+```sql
+select
+  generation
+from
+  cohereai_generation
+where
+  settings = '{"num_generations": 1}'
+  and prompt = 'Check the smaple. Sample: "The impotance of effictive comunication. This is an exmaple artcile abot missplelled wrds."';
+```
