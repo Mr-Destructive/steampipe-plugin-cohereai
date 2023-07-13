@@ -7,8 +7,6 @@ Notes:
 * A `examples` is a list of {"text": "apple", "label": "fruit"} structure of type [Example](https://docs.cohere.com/reference/classify)
 * Minimum 2 `examples` should be provided and the maximum value is 2500 with each example of maximum of 512 tokens.
 
-You can get more information about `cohereai_classify` table by using the inspect command or from the [api reference](https://docs.cohere.com/reference/classify)
-
 ## Examples
 
 ### Basic classification with given set of inputs and examples

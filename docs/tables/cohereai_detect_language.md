@@ -5,8 +5,6 @@ Detect langugage for given input strings(list of strings).
 Notes:
 * A `texts` is a list of strings to detect the language.
 
-More information can be found about `cohereai_detect_language` table by using the inspect command or from the [api reference](https://docs.cohere.com/reference/detect-language)
-
 ## Examples
 
 ### Basic example with default settings

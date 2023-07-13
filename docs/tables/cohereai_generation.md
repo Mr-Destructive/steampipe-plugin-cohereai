@@ -8,8 +8,6 @@ Notes:
 
 The `return_likelihoods` can be set to `GENERATION` or `ALL`. If the former is selected, the API would respond with the likelihood for only the generation text, else for the later, the likelihood will br given for both generated and prompt text (Default in the plugin is `GENERATION`).
 
-More information can be found about `cohereai_generation` table by using the inspect command or from the [api reference](https://docs.cohere.com/reference/generate)
-
 ## Examples
 
 ### Basic example with simple prompt
