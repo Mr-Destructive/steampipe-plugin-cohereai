@@ -61,7 +61,7 @@ Prerequisites:
 Clone:
 
 ```sh
-git clone https://github.com/turbot/steampipe-plugin-cohereai.git
+git clone https://github.com/mr-destructive/steampipe-plugin-cohereai.git
 cd steampipe-plugin-cohereai
 ```
 
