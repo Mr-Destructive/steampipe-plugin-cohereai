@@ -15,6 +15,6 @@ select
 from
   cohereai_detokenize
 where
-  tokens = '[33555, 1114]'
+  tokens = '[33555, 1114]';
 ```
 

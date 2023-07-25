@@ -2,10 +2,10 @@
 
 Use SQL to generate, classify, summarize text and more from CohereAI.
 
-- **[Get started →](https://hub.steampipe.io/plugins/turbot/cohereai)**
-- Documentation: [Table definitions & examples](https://hub.steampipe.io/plugins/turbot/cohereai/tables)
+- **[Get started →](https://hub.steampipe.io/plugins/mr-destructive/cohereai)**
+- Documentation: [Table definitions & examples](https://hub.steampipe.io/plugins/mr-destructive/cohereai/tables)
 - Community: [Slack Channel](https://steampipe.io/community/join)
-- Get involved: [Issues](https://github.com/turbot/steampipe-plugin-cohereai/issues)
+- Get involved: [Issues](https://github.com/Mr-Destructive/steampipe-plugin-cohereai/issues)
 
 ## Quick start
 
@@ -61,7 +61,7 @@ Prerequisites:
 Clone:
 
 ```sh
-git clone https://github.com/mr-destructive/steampipe-plugin-cohereai.git
+git clone https://github.com/Mr-Destructive/steampipe-plugin-cohereai.git
 cd steampipe-plugin-cohereai
 ```
 
@@ -97,4 +97,4 @@ Please see the [contribution guidelines](https://github.com/turbot/steampipe/blo
 `help wanted` issues:
 
 - [Steampipe](https://github.com/turbot/steampipe/labels/help%20wanted)
-- [Cohere AI Plugin](https://github.com/turbot/steampipe-plugin-cohereai/labels/help%20wanted)
+- [Cohere AI Plugin](https://github.com/Mr-Destructive/steampipe-plugin-cohereai/labels/help%20wanted)

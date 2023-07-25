@@ -36,7 +36,7 @@ where
    "temperature": 0.9,
    "top_p": 1.0,
    "frequency_penalty": 0.0 }'
-  and prompt = 'Give suggestions for a title for a science-fiction novel.
+  and prompt = 'Give suggestions for a title for a science-fiction novel.';
 ```
 
 ### Pass the prompt string through settings
