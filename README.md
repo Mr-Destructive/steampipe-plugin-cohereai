@@ -1,3 +1,5 @@
+![image](https://hub.steampipe.io/images/plugins/Mr-Destructive/cohereai-social-graphic.png)
+
 # Cohere-AI Plugin for Steampipe
 
 Use SQL to generate, classify, summarize text and more from CohereAI.
