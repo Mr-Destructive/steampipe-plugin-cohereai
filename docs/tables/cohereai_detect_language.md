@@ -17,9 +17,8 @@ select
 from
   cohereai_detect_language
 where
-  texts = '["Этот текст на Русском языке", "नमस्ते गुरुजी", "some plain text"]'
+  texts = '["Этот текст на Русском языке", "नमस्ते गुरुजी", "some plain text"]';
 ```
-
 
 ### Examples for large text input
 

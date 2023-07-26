@@ -16,5 +16,5 @@ select
 from
   cohereai_tokenize
 where
-  text = 'hello world'
+  text = 'hello world';
 ```

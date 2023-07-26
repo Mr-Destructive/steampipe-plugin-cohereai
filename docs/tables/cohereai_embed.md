@@ -15,6 +15,6 @@ select
 from
   cohereai_embed
 where
-  texts = '["hello", "world"]'
+  texts = '["hello", "world"]';
 ```
 

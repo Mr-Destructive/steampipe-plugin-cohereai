@@ -1,13 +1,13 @@
 ---
-organization: Turbot
+organization: Mr-Destructive
 category: ["ai"]
-icon_url: "/images/plugins/turbot/cohereai.svg"
-brand_color: "#000000"
+icon_url: "/images/plugins/Mr-Destructive/cohereai.svg"
+brand_color: "#FF7759"
 display_name: "CohereAI"
 short_name: "cohereai"
 description: "Steampipe plugin to query generations, classifications and more from CohereAI."
 og_description: "Query CohereAI with SQL! Open source CLI. No DB required."
-og_image: "/images/plugins/turbot/cohereai-social-graphic.png"
+og_image: "/images/plugins/Mr-Destructive/cohereai-social-graphic.png"
 ---
 
 # CohereAI + Steampipe
@@ -42,7 +42,7 @@ where
 
 ## Documentation
 
-- **[Table definitions & examples →](/docs/tables)**
+- **[Table definitions & examples →](/plugins/mr-destructive/cohereai/tables)**
 
 ## Get started
 
@@ -88,5 +88,5 @@ export COHEREAI_API_KEY=asLGEMKWMfkeFKENW038493fnWeng
 
 ## Get involved
 
-- Open source: https://github.com/turbot/steampipe-plugin-cohereai
+- Open source: https://github.com/Mr-Destructive/steampipe-plugin-cohereai
 - Community: [Slack Channel](https://steampipe.io/community/join)
