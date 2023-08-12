@@ -1,4 +1,4 @@
-module github.com/steampipe/steampipe-plugin-cohereai
+module github.com/mr-destructive/steampipe-plugin-cohereai
 
 go 1.19
 
