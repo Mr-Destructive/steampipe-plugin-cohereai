@@ -1,2 +1,2 @@
 install:
-	go build -o ~/.steampipe/plugins/hub.steampipe.io/plugins/Mr-Destructive/cohereai@latest/steampipe-plugin-cohereai.plugin *.go
+	go build -o ~/.steampipe/plugins/hub.steampipe.io/plugins/mr-destructive/cohereai@latest/steampipe-plugin-cohereai.plugin *.go

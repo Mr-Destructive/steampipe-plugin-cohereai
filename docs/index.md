@@ -69,7 +69,7 @@ Installing the latest comereai plugin will create a config file (`~/.steampipe/c
 
 ```hcl
 connection "cohereai" {
-  plugin = "cohereai"
+  plugin = "mr-destructive/cohereai"
 
   # API key for requests. Required.
   # Get your API key at https://dashboard.cohere.ai/api-keys
