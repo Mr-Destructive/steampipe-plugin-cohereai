@@ -51,7 +51,7 @@ where
 Download and install the latest CohereAI plugin:
 
 ```bash
-steampipe plugin install Mr-Destructive/cohereai 
+steampipe plugin install mr-destructive/cohereai 
 ```
 
 ### Credentials
